@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVO X VIP PANEL v4.2</title>
+    <!-- রিয়েল অ্যাপ আইকন -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300ff66'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.3c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/></svg>">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        body {
+            background-color: #050508;
+            color: #00ff66;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* টপ লাইভ নোটিফিকেশন বার */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 255, 102, 0.15);
+            border-bottom: 1px solid #00ff66;
+            color: #00ff66;
+            font-size: 11px;
+            padding: 6px 10px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+            z-index: 999;
+        }
+
+        /* ব্যাকগ্রাউন্ড সাইবার গ্রিড */
+        .bg-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: linear-gradient(rgba(0, 255, 102, 0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 255, 102, 0.04) 1px, transparent 1px);
+            background-size: 25px 25px;
+            animation: moveGrid 15s linear infinite;
+            z-index: -1;
+        }
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-25px, -25px); }
+        }
+
+        /* প্যানেল বক্স */
+        .panel {
+            width: 340px;
+            background: rgba(13, 13, 20, 0.95);
+            border: 2px solid #00ff66;
+            box-shadow: 0 0 25px rgba(0, 255, 102, 0.35);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 25px;
+        }
+
+        /* লোগো ও হেডার সেকশন */
+        .header {
+            text-align: center;
+            border-bottom: 1px dashed #00ff66;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+        .logo-box {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 6px auto;
+            border: 2px solid #00ff66;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.6);
+        }
+        .logo-box svg {
+            width: 28px;
+            height: 28px;
+            fill: #00ff66;
+        }
+        .header h2 {
+            font-size: 17px;
+            color: #00ff66;
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.8);
+        }
+        .header p {
+            font-size: 10px;
+            color: #00aaff;
+            margin-top: 3px;
+            font-weight: bold;
+        }
+
+        /* পাসওয়ার্ড সেকশন */
+        .input-group {
+            margin-bottom: 10px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 9px;
+            background: #111118;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            font-size: 14px;
+            border-radius: 4px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+        .btn {
+            width: 100%;
+            padding: 9px;
+            background: #00ff66;
+            color: #000;
+            border: none;
+            font-weight: bold;
+            font-size: 13px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn:hover {
+            background: #00cc52;
+            box-shadow: 0 0 10px #00ff66;
+        }
+
+        /* লোডিং স্ক্রিন */
+        #loading-section {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            background: #111;
+            border: 1px solid #00ff66;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #00ff66;
+            transition: width 0.3s linear;
+        }
+
+        /* হ্যাকস অপশন */
+        #hacks-section {
+            display: none;
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+        .hack-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #12121c;
+            padding: 7px 10px;
+            margin-bottom: 6px;
+            border-radius: 4px;
+            border-left: 3px solid #00ff66;
+            font-size: 11px;
+        }
+        /* টগল সুইচ */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 18px;
+        }
+        .switch input { 
+            opacity: 0; width: 0; height: 0; 
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .3s;
+            border-radius: 18px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #00ff66;
+        }
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+
+        /* কনসোল লগ */
+        .console {
+            background: #020204;
+            border: 1px solid #222;
+            padding: 5px;
+            font-size: 9px;
+            color: #00ff66;
+            height: 35px;
+            overflow-y: auto;
+            margin-top: 8px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- টপ মেসেজ বার -->
+    <div class="top-bar" id="top-msg">
+         [SECURE] Anti-Ban Protection Active v4.2
+    </div>
+
+    <div class="bg-grid"></div>
+
+    <div class="panel">
+        <div class="header">
+            <div class="logo-box">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.3c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+            </div>
+            <h2>EVO X VIP PANEL</h2>
+            <p>FREE FIRE PRIVATE MOD MENU</p>
+        </div>
+
+        <!-- পাসওয়ার্ড পেজ -->
+        <div id="login-section">
+            <div class="input-group">
+                <input type="password" id="passcode" placeholder="Passcode (666)">
+            </div>
+            <button class="btn" onclick="checkLogin()">CONNECT PANEL</button>
+        </div>
+
+        <!-- রিয়েলিস্টিক হ্যাকিং লোডিং স্ক্রিন -->
+        <div id="loading-section">
+            <p id="loading-text" style="font-size:12px; color:#00ff66;">Injecting Payload...</p>
+            <div class="loading-bar">
+                <div class="loading-progress" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- হ্যাকস অপশন -->
+        <div id="hacks-section">
+            <div class="hack-item">
+                <span>Aimbot Headlock 99%</span>
+                <label class="switch">
+                    <input type="checkbox" onchange="logStatus('Aimbot Hooked to Memory')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="hack-item">
+                <span>Pro Drag Headshot 100%</span>
+                <label class="switch">
+                    <input type="checkbox" onchange="logStatus('Drag Sensitivity Boosted')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="hack-item">
+                <span>Zero Recoil / No Shake</span>
+                <label class="switch">
+                    <input type="checkbox" onchange="logStatus('Recoil Stabilized to 0%')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="hack-item">
+                <span>Wallhack ESP Location</span>
+                <label class="switch">
+                    <input type="checkbox" onchange="logStatus('ESP Radar Activated')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="hack-item">
+                <span>Ghost Mode (0% Ban)</span>
+                <label class="switch">
+                    <input type="checkbox" onchange="logStatus('Ghost Mode Engaged')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="hack-item">
+                <span>Fast Medkit & HP Boost</span>
+                <label class="switch">
+                    <input type="checkbox" onchange="logStatus('HP Regeneration Active')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="console" id="console-log">
+                >> Status: Connected to FF Server [Secure]
+            </div>
+
+            <button class="btn" style="background:#ff3333; color:#fff; margin-top:8px;" onclick="lockPanel()">LOCK PANEL</button>
+        </div>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const pass = document.getElementById('passcode').value;
+            if(pass === "666") {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('loading-section').style.display = 'block';
+                document.getElementById('top-msg').innerText = " [INJECTING] Bypassing Security...";
+
+                let progress = 0;
+                const bar = document.getElementById('progress-bar');
+                const text = document.getElementById('loading-text');
+                
+                const interval = setInterval(() => {
+                    progress += 20;
+                    bar.style.width = progress + '%';
+                    if(progress === 40) text.innerText = "Hooking Free Fire Memory...";
+                    if(progress === 80) text.innerText = "Activating Anti-Ban Bypass...";
+                    if(progress >= 100) {
+                        clearInterval(interval);
+                        document.getElementById('loading-section').style.display = 'none';
+                        document.getElementById('hacks-section').style.display = 'block';
+                        document.getElementById('top-msg').innerText = " [SUCCESS] EVO X VIP Panel Active!";
+                    }
+                }, 250);
+
+            } else {
+                alert("Wrong Passcode! Try 666");
+            }
+        }
+
+        function logStatus(msg) {
+            const consoleBox = document.getElementById('console-log');
+            consoleBox.innerHTML = ">> " + msg;
+            document.getElementById('top-msg').innerText = " [ACTIVE] " + msg;
+        }
+
+        function lockPanel() {
+            document.getElementById('hacks-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('passcode').value = '';
+            document.getElementById('top-msg').innerText = " [SECURE] Anti-Ban Protection Active v4.2";
+        }
+    </script>
+</body>
+</html>
